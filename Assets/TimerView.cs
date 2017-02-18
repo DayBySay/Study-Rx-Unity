@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UniRx;
 
 public class TimerView : MonoBehaviour {
 
@@ -11,9 +12,9 @@ public class TimerView : MonoBehaviour {
     private Text text;
 	// Use this for initialization
 	void Start () {
-        counter.timerEventHandler = (time) =>
+        counter.OnTimeChanged.Subscribe(time =>
         {
             text.text = time.ToString();
-        };
+        });
 	}
 }

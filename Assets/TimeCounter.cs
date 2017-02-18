@@ -1,10 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UniRx;
 
 public class TimeCounter : MonoBehaviour {
-    public delegate void TimerEventHandler(int time);
-    public TimerEventHandler timerEventHandler;
+    private Subject<int> timerSubject = new Subject<int>();
+
+    public IObservable<int> OnTimeChanged
+    {
+        get { return timerSubject; }
+    }
 
 	// Use this for initialization
 	void Start () {
@@ -17,7 +22,7 @@ public class TimeCounter : MonoBehaviour {
         while (time > 0)
         {
             time--;
-            timerEventHandler(time);
+            timerSubject.OnNext(time);
 
             yield return new WaitForSeconds(1);
         }
